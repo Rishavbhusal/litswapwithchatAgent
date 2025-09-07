@@ -1,0 +1,13 @@
+diff --git a/node_modules/@ai-sdk/react/dist/index.mjs b/node_modules/@ai-sdk/react/dist/index.mjs
+index bed6c7b..5de9cdc 100644
+--- a/node_modules/@ai-sdk/react/dist/index.mjs
++++ b/node_modules/@ai-sdk/react/dist/index.mjs
+@@ -335,7 +335,7 @@ import {
+   parsePartialJson
+ } from "ai";
+ import { useCallback as useCallback3, useId as useId2, useRef as useRef3, useState as useState2 } from "react";
+-import useSWR2 from "swr";
++import { useSWR as useSWR2 } from "swr";
+ var getOriginalFetch = () => fetch;
+ function useObject({
+   api,

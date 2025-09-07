@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TrendingUp, DollarSign, Activity, Shield, Plus } from "lucide-react";
+import { TrendingUp, DollarSign, Activity, Shield, Plus, X } from "lucide-react";
 import Link from "next/link";
 import { useAuthStore } from "../stores/auth-store";
 import { removeStoredVincentJWT } from "../lib/vincent-auth";
+import dynamic from "next/dynamic";
+
 
 interface DashboardStats {
   totalInvested: number;
@@ -23,6 +25,7 @@ export default function DashboardPage() {
     returnPercentage: 0,
     activeStrategies: 0,
   });
+  const [showChatbot, setShowChatbot] = useState(false);
 
   useEffect(() => {
     // Simulate loading dashboard data
@@ -67,7 +70,31 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {/* Chatbot Modal */}
+      {showChatbot && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl relative">
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              onClick={() => setShowChatbot(false)}
+              aria-label="Close chatbot"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <Chat
+              id="dashboard-chat"
+              initialMessages={[]}
+              initialChatModel="default"
+              initialVisibilityType="private"
+              isReadonly={false}
+              session={user}
+              autoResume={false}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white rounded-lg shadow p-6">
         <div className="flex items-center justify-between">
@@ -193,6 +220,21 @@ export default function DashboardPage() {
               <p className="text-gray-600">
                 View and edit your existing strategies
               </p>
+            </div>
+          </Link>
+
+          <Link
+            href="/chatbotAgent"
+            className="flex items-center p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition-colors w-full"
+          >
+            <svg className="h-8 w-8 text-green-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.77 9.77 0 01-4-.8l-4 1 1-4A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <div className="ml-4 text-left">
+              <h3 className="text-lg font-medium text-gray-900">
+                Chat with AIChatAgent
+              </h3>
+              <p className="text-gray-600">Get instant AI-powered support and answers</p>
             </div>
           </Link>
         </div>

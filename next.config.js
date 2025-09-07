@@ -21,6 +21,11 @@ const nextConfig = {
       buffer: false,
     };
 
+    config.module.rules.push({
+      test: /\.test\.(ts|js)x?$/,
+      loader: 'ignore-loader',
+    });
+
     // Handle ESM packages that should be external
     if (isServer) {
       config.externals = [...(config.externals || [])];
